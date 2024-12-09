@@ -1,4 +1,5 @@
 #include "stack1.hpp"
+#include <cmath>
 #include <iostream>
 #include <string>
 
@@ -9,18 +10,19 @@ struct post {
   int rate;
 };
 
-post operators[6] = {
+post operators[7] = {
     {'(', 0},
     {')', 0},
     {'+', 1},
     {'-', 1},
     {'*', 2},
-    {'/', 2}};
+    {'/', 2},
+    {'%', 2}};
 
 int getRate(char infix) {
   int nowRate;
 
-  for (int g = 0; g < 6; g++) {
+  for (int g = 0; g < 7; g++) {
     if (infix == operators[g].symbol) {
       nowRate = operators[g].rate;
       break;
@@ -31,7 +33,7 @@ int getRate(char infix) {
 
 int getSymb(char postfix) {
   int n;
-  for (int g = 2; g <= 5; g++) {
+  for (int g = 2; g <= 6; g++) {
     if (operators[g].symbol == postfix) {
       n = g;
     }
@@ -47,7 +49,7 @@ void input(string &infix) {
     for (int i = 0; i < infix.length(); i++) {
       if (infix[i] < '0' || infix[i] > '9') {
         bool op = false;
-        for (int j = 0; j < 6; j++) {
+        for (int j = 0; j < 7; j++) {
           if (infix[i] == operators[j].symbol) {
             op = true;
           }
@@ -150,6 +152,9 @@ double caculatorPostfix(string postfix) {
         break;
       case 5:
         myStack.push(front / rear);
+        break;
+      case 6:
+        myStack.push(fmod(front, rear));
         break;
       default:
         throw "Err";
