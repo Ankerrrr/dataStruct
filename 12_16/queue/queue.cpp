@@ -7,74 +7,80 @@ class queue;
 
 template <typename T>
 class chainNode {
-  friend class queue<T>;
+    friend class queue<T>;
 
 private:
-  T data;
-  chainNode *link;
+    T data;
+    chainNode* link;
 
 public:
-  chainNode(T &D, chainNode *L = 0) : data(D), link(L) {};
+    chainNode(T& D, chainNode* L = 0) : data(D), link(L) {};
 };
 
 template <typename T>
 class queue {
 private:
-  chainNode<T> *front, *rear;
+    chainNode<T>* front, * rear;
 
 public:
-  queue() : front(nullptr), rear(nullptr) {};
-  ~queue() {
-    while (!isEmpty()) {
-      pop();
+    queue() : front(nullptr), rear(nullptr) {};
+    ~queue() {
+        while (!isEmpty()) {
+            pop();
+        }
     }
-  }
-  bool isEmpty();
-  void push(T &);
-  void pop();
-  void print();
+    bool isEmpty();
+    void push(T);
+    void pop();
+    void print();
 };
 
 template <typename T>
 bool queue<T>::isEmpty() {
-  return front == NULL;
+    return front == NULL;
 }
 
 template <typename T>
-void queue<T>::push(T &D) {
-  if (isEmpty()) {
-    front = rear = new chainNode<T>(D, 0);
-  } else {
-    rear = rear->link = new chainNode<T>(D, 0);
-  }
+void queue<T>::push(T D) {
+    if (isEmpty()) {
+        front = rear = new chainNode<T>(D, 0);
+    }
+    else {
+        rear = rear->link = new chainNode<T>(D, 0);
+    }
 }
 
 template <typename T>
 void queue<T>::pop() {
-  if (isEmpty()) {
-    throw "queue is Empty, cant pop()";
-  } else {
-    chainNode<T> *temp = front;
-    front = front->link;
-    if (front == nullptr) {
-      rear = nullptr;
+    if (isEmpty()) {
+        throw "queue is Empty, cant pop()";
     }
-    delete temp;
-  }
+    else {
+        chainNode<T>* temp = front;
+        front = front->link;
+        if (front == nullptr) {
+            rear = nullptr;
+        }
+        delete temp;
+    }
 }
 
 template <typename T>
 void queue<T>::print() {
-  int count = 0;
-  for (chainNode<T> *i = front; i != NULL; i = i->link) {
-    cout << "N." << ++count << ": " << i->data << ", ";
-  }
+    int count = 0;
+    for (chainNode<T>* i = front; i != NULL; i = i->link) {
+        cout <<  i->data << ", ";
+    }
 }
 
 int main() {
-  queue<int> myIntQueue;
-  for (int i = 0; i < 10; i++) {
-    myIntQueue.push(i);
-  }
-  myIntQueue.print();
+    queue<float> myIntQueue;
+    myIntQueue.push(3.45);
+    myIntQueue.push(7);
+    myIntQueue.push(0);
+    myIntQueue.push(2.6);
+    myIntQueue.pop();
+
+    myIntQueue.print();
+    return 0;
 }
