@@ -21,7 +21,7 @@ public:
 template <typename T>
 class node {
   friend class queue<T>;
-  friend queue<T> addPoly<T>(queue<T> &, queue<T> &); // 指定範本友元
+  friend queue<T> addPoly<T>(queue<T> &, queue<T> &);
 
 private:
   term<T> data;
@@ -117,6 +117,7 @@ void queue<T>::input() {
   int e;
 
   while (1) {
+    cout << "~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
     cout << "輸入係數: ";
     cin >> c;
     if (c == 999) {
@@ -136,7 +137,7 @@ void queue<T>::input() {
       cout << "請將次方由大到小依序輸入!!";
       throw "錯誤";
     }
-    queue::push(term(c, e));
+    this->push(term<T>(c, e));
   }
 }
 
@@ -178,14 +179,19 @@ queue<T> addPoly(queue<T> &a, queue<T> &b) {
 int main() {
   queue<int> poly1;
   queue<int> poly2;
+  cout << "一般" << endl;
 
-  cout << "輸入第一個多項式" << endl;
-  poly1.input();
-  cout << "輸入第二個多項式" << endl;
-  poly2.input();
+  try {
+    cout << "輸入第一個多項式" << endl;
+    poly1.input();
+    cout << "輸入第二個多項式" << endl;
+    poly2.input();
 
-  queue<int> addAns = addPoly(poly1, poly2);
+    queue<int> addAns = addPoly(poly1, poly2);
 
-  cout << "加法結果" << endl;
-  addAns.print();
+    cout << "加法結果" << endl;
+    addAns.print();
+  } catch (const char *msg) {
+    cout << msg;
+  }
 }

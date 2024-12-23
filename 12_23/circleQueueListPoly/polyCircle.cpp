@@ -91,7 +91,7 @@ void queue<T>::pop() {
     if (front == nullptr) {
       rear = nullptr;
     } else {
-      rear->link = front; // 保證循環鏈表
+      rear->link = front;
     }
     delete temp;
   }
@@ -115,6 +115,9 @@ void queue<T>::print() {
     if (i->data.exp == 0) {
       cout << i->data.cof;
       continue;
+    } else if (i->data.exp == 1) {
+      cout << i->data.cof;
+      continue;
     }
     cout << i->data.cof << "^" << i->data.exp;
   }
@@ -131,6 +134,7 @@ void queue<T>::input() {
   int e;
 
   while (1) {
+    cout << "~~~~~~~~~~~~~~~~~~~~~~~~" << endl;
     cout << "輸入係數: ";
     cin >> c;
     if (c == 999) {
@@ -150,7 +154,7 @@ void queue<T>::input() {
       cout << "請將次方由大到小依序輸入!!";
       throw "錯誤";
     }
-    queue::push(term(c, e));
+    this->push(term<T>(c, e));
   }
 }
 
@@ -159,8 +163,8 @@ queue<T> addPoly(queue<T> &a, queue<T> &b) {
   node<T> *p1 = a.getFront();
   node<T> *p2 = b.getFront();
 
-  a.push(term(-1, -1));
-  b.push(term(-1, -1));
+  a.push(term<T>(-1, -1));
+  b.push(term<T>(-1, -1));
 
   queue<T> ansPoly;
   while (p1 != nullptr && p2 != nullptr) {
@@ -188,14 +192,19 @@ queue<T> addPoly(queue<T> &a, queue<T> &b) {
 int main() {
   queue<int> poly1;
   queue<int> poly2;
+  cout << "環狀" << endl;
 
-  cout << "輸入第一個多項式" << endl;
-  poly1.input();
-  cout << "輸入第二個多項式" << endl;
-  poly2.input();
+  try {
+    cout << "輸入第一個多項式" << endl;
+    poly1.input();
+    cout << "輸入第二個多項式" << endl;
+    poly2.input();
 
-  queue<int> addAns = addPoly(poly1, poly2);
+    queue<int> addAns = addPoly(poly1, poly2);
 
-  cout << "加法結果" << endl;
-  addAns.print();
+    cout << "加法結果" << endl;
+    addAns.print();
+  } catch (const char *msg) {
+    cout << msg;
+  }
 }
