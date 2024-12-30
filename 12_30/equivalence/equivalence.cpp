@@ -121,9 +121,29 @@ void analyzeEquivlence(int &num, equivalentArray **&arr) {
   }
 }
 
+void deleteArray(int &num, equivalentArray **&arr) {
+  cout << endl
+       << endl;
+  cout << "delete" << endl;
+  for (int i = 0; i < num; i++) {
+    cout << i << ": ";
+
+    node *temp = arr[i]->getChild();
+    while (temp != nullptr) {
+      cout << temp->data << ", ";
+      node *temptemp = temp;
+      temp = temp->link;
+      delete temptemp;
+    }
+    cout << endl;
+  }
+  delete[] arr;
+}
+
 int main() {
   equivalentArray **arr;
   int num;
   inputEquivalence(num, arr);
   analyzeEquivlence(num, arr);
+  deleteArray(num, arr);
 }
